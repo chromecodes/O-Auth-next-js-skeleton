@@ -19,32 +19,38 @@ export default function EmailInput(props: IEmailInputProps) {
 
   return (
     <>
-      <label htmlFor="email">{props.label}</label>
-      <input
-        type="email"
-        id="email"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onBlur={() => {
-          if (props.isRequired) {
-            if (value === "") {
-              setIsEmpty(true);
-            } else {
-              setIsEmpty(false);
+      <div className="input-cnt">
+        <label htmlFor="email">{props.label}</label>
+        <input
+          type="email"
+          id="email"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onBlur={() => {
+            if (props.isRequired) {
+              if (value === "") {
+                setIsEmpty(true);
+              } else {
+                setIsEmpty(false);
+              }
             }
-          }
-          if (props.isValid) {
-            if (validationCheck(value, "email")) {
-              props.updateValue(value);
-              setIsValid(false);
+            if (props.isValid) {
+              if (validationCheck(value, "email")) {
+                props.updateValue(value);
+                setIsValid(false);
+              } else {
+                setIsValid(true);
+              }
             } else {
               setIsValid(true);
             }
-          } else {
-            setIsValid(true);
-          }
-        }}
-      />
+          }}
+        />
+      </div>
+      <div className="input-err-cnt">
+        {isEmpty && <span>Required</span>}
+        {isValid && !isEmpty && <span>Invalid Email</span>}
+      </div>
     </>
   );
 }

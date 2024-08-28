@@ -1,0 +1,9 @@
+{
+    "required": "Required",
+    "email": "Email",
+    "password": "Password",
+    "confirm": "Confirm",
+    "username": "Username",
+    "sign_up": "Sign Up",
+    "log_in": "Log In"
+}
