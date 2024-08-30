@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <LanguageWrapper>
         <body className={inter.className}>
-          <div className="body-wrapper">{children}</div>
+          <div className="body-wrapper theme-dark">{children}</div>
         </body>
       </LanguageWrapper>
     </html>

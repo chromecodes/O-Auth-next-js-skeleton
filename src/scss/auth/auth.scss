@@ -1,0 +1,38 @@
+@import "signup.scss", "signin.scss", "forgotPassword.scss";
+
+.auth-wrapper {
+  padding: 20px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+
+  .img-cnt {
+    height: 100%;
+    width: 50%;
+    flex-grow: 1;
+    background-color: var(--primary);
+    border-radius: var(--section-border-radius);
+  }
+
+  .cred-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 40%;
+
+    .inputs-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 60%;
+      padding: 20px;
+    }
+
+    .link-cnt {
+      display: flex;
+      gap: 8px;
+    }
+  }
+}

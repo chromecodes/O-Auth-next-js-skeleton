@@ -4,6 +4,12 @@
     "password": "Password",
     "confirm": "Confirm",
     "username": "Username",
-    "sign_up": "Sign Up",
-    "log_in": "Log In"
+    "sign_up": "Sign up",
+    "sign_up_with_google": "Sign up with Google",
+    "sign_in": "Sign in",
+    "sign_in_with_google": "Sign in with Google",
+    "or": "or",
+    "forgot_password": "Forgot password?",
+    "already_have_an_account": "Already have an account?",
+    "invalid_format": "Invalid format"
 }

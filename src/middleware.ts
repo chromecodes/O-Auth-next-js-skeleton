@@ -6,18 +6,16 @@ export function middleware(request: NextRequest) {
   let currentPath = request.nextUrl.pathname;
   let cookieToken = request.cookies.get("token");
 
-  let publicPages = ["/auth/login", "/auth/signup"];
+  let publicPages = ["/auth/signin", "/auth/signup"];
 
-  console.log({ currentPath, cookieToken, publicPages });
+  let isPublicPage = publicPages.includes(currentPath);
+  if (!isPublicPage && !cookieToken) {
+    return NextResponse.redirect(new URL("/auth/signup", request.url));
+  }
 
-  // let isPublicPage = publicPages.includes(currentPath);
-  // if (!isPublicPage && !cookieToken) {
-  //   return NextResponse.redirect(new URL("/auth/signup", request.url));
-  // }
-
-  // if (isPublicPage && cookieToken) {
-  //   return NextResponse.redirect(new URL("/", request.url));
-  // }
+  if (isPublicPage && cookieToken) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 }
 
 export const config = {

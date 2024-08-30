@@ -2,20 +2,23 @@
 
 import * as React from "react";
 import { validationCheck } from "../../helper/validationCheck";
+import { useLanguageStore } from "@/store/store";
+import ErroTextCnt from "./components/ErrorTextCnt";
 
-export interface IEmailInputProps {
-  label?: string;
-  value?: string;
+interface IEmailInputProps {
+  label: string;
+  value: string;
   updateValue: (value: string) => void;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  isValid?: boolean;
-  isRequired?: boolean;
+  updateIsValid: (value: boolean) => void;
+  isValid: boolean;
+  isRequired: boolean;
 }
 
 export default function EmailInput(props: IEmailInputProps) {
   const [isValid, setIsValid] = React.useState(false);
   const [isEmpty, setIsEmpty] = React.useState(false);
   const [value, setValue] = React.useState(props.value as string);
+  const lang = useLanguageStore((state) => state.language);
 
   return (
     <>
@@ -25,6 +28,7 @@ export default function EmailInput(props: IEmailInputProps) {
           type="email"
           id="email"
           value={value}
+          className={isValid || isEmpty ? "error-input" : ""}
           onChange={(e) => setValue(e.target.value)}
           onBlur={() => {
             if (props.isRequired) {
@@ -34,22 +38,15 @@ export default function EmailInput(props: IEmailInputProps) {
                 setIsEmpty(false);
               }
             }
-            if (props.isValid) {
-              if (validationCheck(value, "email")) {
-                props.updateValue(value);
-                setIsValid(false);
-              } else {
-                setIsValid(true);
-              }
+            if (validationCheck(value, "email")) {
+              props.updateValue(value);
+              setIsValid(false);
             } else {
               setIsValid(true);
             }
           }}
         />
-      </div>
-      <div className="input-err-cnt">
-        {isEmpty && <span>Required</span>}
-        {isValid && !isEmpty && <span>Invalid Email</span>}
+        <ErroTextCnt isValid={isValid} isEmpty={isEmpty} />
       </div>
     </>
   );

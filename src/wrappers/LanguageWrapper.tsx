@@ -9,8 +9,6 @@ const LanguageWrapper = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     let lang = localStorage.getItem("lang") || "en";
-    console.log({ lang });
-
     import(`../language/${lang}.json`)
       .then((json) => {
         setLanguage(json.default);
@@ -20,12 +18,16 @@ const LanguageWrapper = ({ children }: { children: React.ReactNode }) => {
         // Handle any errors
         console.error("Error importing module:", error);
       });
-  }, []);
+  }, [setLanguage]);
 
   if (!gotData)
     return (
       <body>
-        <div className="loader-blob-4-dot"></div>
+        <div className="body-wrapper theme-dark">
+          <div className="loader-cnt">
+            <div className="loader-blob-4-dot"></div>
+          </div>
+        </div>
       </body>
     );
   else return <>{children}</>;
