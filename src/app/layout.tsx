@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "../scss/main.scss";
 import LanguageWrapper from "@/wrappers/LanguageWrapper";
+import SessionWrapper from "@/wrappers/SessionWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,12 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <LanguageWrapper>
-        <body className={inter.className}>
-          <div className="body-wrapper theme-dark">{children}</div>
-        </body>
-      </LanguageWrapper>
-    </html>
+    <SessionWrapper>
+      <html lang="en">
+        <LanguageWrapper>
+          <body className={inter.className}>
+            <div className="body-wrapper theme-dark">{children}</div>
+          </body>
+        </LanguageWrapper>
+      </html>
+    </SessionWrapper>
   );
 }
