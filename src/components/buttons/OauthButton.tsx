@@ -6,14 +6,15 @@ import * as React from "react";
 
 export interface IOauthButtonProps {
   label: string;
-  action: () => void;
+  auth: string;
+  action: (auth: string) => void;
 }
 
 export default function OauthButton(props: IOauthButtonProps) {
   const lang = useLanguageStore((state) => state.language);
 
   return (
-    <div className="oauth-button" onClick={() => props.action()}>
+    <div className="oauth-button" onClick={() => props.action(props.auth)}>
       <Image
         src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
         alt="logo"

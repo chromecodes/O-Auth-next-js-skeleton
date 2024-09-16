@@ -1,6 +1,6 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
-import connect from "@/dbCongfig/dbConfig";
+import connect from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import jwt from "jsonwebtoken";
 import { NextResponse, NextRequest } from "next/server";

@@ -7,6 +7,7 @@ import EmailInput from "@/components/Inputs/EmailInput";
 import PasswordInput from "@/components/Inputs/PasswordInput";
 import TextFieldInput from "@/components/Inputs/TextFieldInput";
 import { useLanguageStore } from "@/store/store";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import * as React from "react";
 
@@ -26,6 +27,9 @@ export default function SignUp(props: IsignUpProps) {
   const lang = useLanguageStore((state) => state.language);
 
   const signUp = () => {};
+  const authSignUp = (auth: string) => {
+    signIn(auth);
+  };
 
   return (
     <div className="auth-wrapper">
@@ -75,7 +79,11 @@ export default function SignUp(props: IsignUpProps) {
           </div>
 
           <PrimaryButton label="sign_up" action={signUp} />
-          <OauthButton label="sign_up_with_google" action={signUp} />
+          <OauthButton
+            label="sign_up_with_google"
+            action={authSignUp}
+            auth={"google"}
+          />
         </div>
       </div>
     </div>
