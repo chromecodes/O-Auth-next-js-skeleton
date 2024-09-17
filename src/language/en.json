@@ -11,5 +11,9 @@
     "or": "or",
     "forgot_password": "Forgot password?",
     "already_have_an_account": "Already have an account?",
-    "invalid_format": "Invalid format"
+    "invalid_format": "Invalid format",
+    "logout": "Logout",
+    "company_name": "Company Name"
+
+
 }

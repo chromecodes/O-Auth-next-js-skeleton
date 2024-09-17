@@ -15,11 +15,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/profile", request.nextUrl));
   }
   if (!isPublicPath && !token) {
-    return NextResponse.redirect(new URL("/signin", request.url));
+    return NextResponse.redirect(new URL("/auth/signin", request.url));
   }
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/", "/auth/signup", "/profile", "/auth/signin"],
+  matcher:
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
 };

@@ -19,7 +19,16 @@ export default function TextAreaInput(props: ITextAreaInputProps) {
   const [isEmpty, setIsEmpty] = React.useState(false);
   const [value, setValue] = React.useState(props.value as string);
   const lang = useLanguageStore((state) => state.language);
-
+  const blurCheck = () => {
+    if (validationCheck(value, "text")) {
+      props.updateIsValid(true);
+      props.updateValue(value);
+      setIsValid(false);
+    } else {
+      props.updateIsValid(false);
+      setIsValid(true);
+    }
+  };
   return (
     <>
       <div className="input-cnt">
@@ -34,14 +43,11 @@ export default function TextAreaInput(props: ITextAreaInputProps) {
               if (value === "") {
                 setIsEmpty(true);
               } else {
+                // blurCheck();
                 setIsEmpty(false);
               }
-            }
-            if (validationCheck(value, "text")) {
-              props.updateValue(value);
-              setIsValid(false);
             } else {
-              setIsValid(true);
+              // blurCheck();
             }
           }}
         />{" "}

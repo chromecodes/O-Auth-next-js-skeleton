@@ -1,5 +1,6 @@
 "use client";
 
+import FullPageLoader from "@/components/Loaders/FullPageLoader";
 import { useLanguageStore } from "@/store/store";
 import React, { useEffect } from "react";
 
@@ -23,11 +24,7 @@ const LanguageWrapper = ({ children }: { children: React.ReactNode }) => {
   if (!gotData)
     return (
       <body>
-        <div className="body-wrapper theme-dark">
-          <div className="loader-cnt">
-            <div className="loader-blob-4-dot"></div>
-          </div>
-        </div>
+        <FullPageLoader />{" "}
       </body>
     );
   else return <>{children}</>;

@@ -7,13 +7,16 @@ import EmailInput from "@/components/Inputs/EmailInput";
 import PasswordInput from "@/components/Inputs/PasswordInput";
 import TextFieldInput from "@/components/Inputs/TextFieldInput";
 import { useLanguageStore } from "@/store/store";
+import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 
 export interface IsignUpProps {}
 
 export default function SignUp(props: IsignUpProps) {
+  const router = useRouter();
   const [data, setData] = React.useState({
     username: "",
     email: "",
@@ -26,7 +29,20 @@ export default function SignUp(props: IsignUpProps) {
   });
   const lang = useLanguageStore((state) => state.language);
 
-  const signUp = () => {};
+  const signUp = async () => {
+    console.log({ dataIsValid });
+
+    if (dataIsValid.username && dataIsValid.email && dataIsValid.password) {
+      try {
+        const res = await axios.post("/api/auth/signup", data);
+        if (res.status === 200) {
+          router.push("/profile");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
   const authSignUp = (auth: string) => {
     signIn(auth);
   };

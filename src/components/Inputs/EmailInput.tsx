@@ -20,6 +20,16 @@ export default function EmailInput(props: IEmailInputProps) {
   const [value, setValue] = React.useState(props.value as string);
   const lang = useLanguageStore((state) => state.language);
 
+  const blurCheck = () => {
+    if (validationCheck(value, "email")) {
+      props.updateValue(value);
+      props.updateIsValid(true);
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+      props.updateIsValid(false);
+    }
+  };
   return (
     <>
       <div className="input-cnt">
@@ -36,13 +46,10 @@ export default function EmailInput(props: IEmailInputProps) {
                 setIsEmpty(true);
               } else {
                 setIsEmpty(false);
+                blurCheck();
               }
-            }
-            if (validationCheck(value, "email")) {
-              props.updateValue(value);
-              setIsValid(false);
             } else {
-              setIsValid(true);
+              blurCheck();
             }
           }}
         />

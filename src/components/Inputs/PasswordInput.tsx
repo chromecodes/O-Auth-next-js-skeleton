@@ -20,6 +20,16 @@ export default function PasswordInput(props: IPasswordInputProps) {
   const [value, setValue] = React.useState(props.value as string);
   const lang = useLanguageStore((state) => state.language);
 
+  const blurCheck = () => {
+    if (validationCheck(value, "password")) {
+      props.updateValue(value);
+      props.updateIsValid(true);
+      setIsValid(false);
+    } else {
+      props.updateIsValid(false);
+      setIsValid(true);
+    }
+  };
   return (
     <>
       <div className="input-cnt">
@@ -36,13 +46,10 @@ export default function PasswordInput(props: IPasswordInputProps) {
                 setIsEmpty(true);
               } else {
                 setIsEmpty(false);
+                blurCheck();
               }
-            }
-            if (validationCheck(value, "password")) {
-              props.updateValue(value);
-              setIsValid(false);
             } else {
-              setIsValid(true);
+              blurCheck();
             }
           }}
         />{" "}
