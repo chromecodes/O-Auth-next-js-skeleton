@@ -1,6 +1,7 @@
 "use client";
 import MainHeader from "@/components/header/MainHeader";
 import FullPageLoader from "@/components/Loaders/FullPageLoader";
+
 import axios from "axios";
 import * as React from "react";
 
@@ -24,6 +25,14 @@ export default function AppLayout({
       console.error(error);
     }
   };
+  // const checkTemplate = async () => {
+  //   try {
+  //     const template = await fetch("@/emailtemplates/verifyEmail.html");
+  //     console.log(template);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   React.useEffect(() => {
     getUserData();

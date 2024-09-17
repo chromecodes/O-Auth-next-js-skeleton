@@ -9,12 +9,15 @@ export function middleware(request: NextRequest) {
 
   let publicPaths = ["/auth/signin", "/auth/signup"];
 
+  let openPaths = ["/auth/verify"];
+
+  let isOpenPath = openPaths.includes(currentPath);
   let isPublicPath = publicPaths.includes(currentPath);
 
   if (isPublicPath && token) {
     return NextResponse.redirect(new URL("/profile", request.nextUrl));
   }
-  if (!isPublicPath && !token) {
+  if (!isPublicPath && !token && !isOpenPath) {
     return NextResponse.redirect(new URL("/auth/signin", request.url));
   }
 }
