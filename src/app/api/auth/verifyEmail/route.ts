@@ -15,13 +15,13 @@ export async function POST(request: NextRequest) {
     const userData = await User.findOne({ verifyToken });
 
     if (!userData) {
-      return NextResponse.json({ message: "Invalid link" }, { status: 400 });
+      return NextResponse.json({ message: "invalid_link" }, { status: 400 });
     }
 
     // check if user is already verified
     if (userData.isVerified) {
       return NextResponse.json(
-        { message: "User already verified" },
+        { message: "user_already_verified" },
         { status: 400 }
       );
     }
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     });
 
     return response;
-  } catch (message: any) {
+  } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }

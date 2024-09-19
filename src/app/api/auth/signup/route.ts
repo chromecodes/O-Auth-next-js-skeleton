@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     const user = await User.findOne({ email });
     if (user)
       return NextResponse.json(
-        { message: "User already exists" },
+        { message: "user_already_exists" },
         { status: 400 }
       );
 
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     await sendMail(email, username, verifyToken);
     const response = NextResponse.json(
       {
-        message: "User created successfully",
+        message: "user_created",
         success: true,
       },
       { status: 200 }
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     });
 
     return response;
-  } catch (message: any) {
+  } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }

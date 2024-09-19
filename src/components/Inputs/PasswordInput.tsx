@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { validationCheck } from "../../helper/validationCheck";
+import { blurCheck, validationCheck } from "../../helper/validationCheck";
 import { useLanguageStore } from "@/store/store";
 import ErroTextCnt from "./components/ErrorTextCnt";
 
@@ -12,24 +12,25 @@ export interface IPasswordInputProps {
   updateIsValid: (value: boolean) => void;
   isValid: boolean;
   isRequired: boolean;
+  reset: number;
 }
 
 export default function PasswordInput(props: IPasswordInputProps) {
-  const [isValid, setIsValid] = React.useState(false);
-  const [isEmpty, setIsEmpty] = React.useState(false);
+  const [isValid, setIsValid] = React.useState(true);
+  const [IsNotEmpty, setIsNotEmpty] = React.useState(true);
   const [value, setValue] = React.useState(props.value as string);
   const lang = useLanguageStore((state) => state.language);
 
-  const blurCheck = () => {
-    if (validationCheck(value, "password")) {
-      props.updateValue(value);
-      props.updateIsValid(true);
-      setIsValid(false);
-    } else {
-      props.updateIsValid(false);
-      setIsValid(true);
+  React.useEffect(() => {
+    if (props.reset) {
+      if (props.value === "") {
+        setIsNotEmpty(false);
+      } else {
+        setIsValid(props.isValid);
+      }
     }
-  };
+  }, [props.value, props.isValid, props.reset]);
+
   return (
     <>
       <div className="input-cnt">
@@ -37,23 +38,14 @@ export default function PasswordInput(props: IPasswordInputProps) {
         <input
           type="password"
           id="password"
-          className={isValid || isEmpty ? "error-input" : ""}
+          className={!isValid || !IsNotEmpty ? "error-input" : ""}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onBlur={() => {
-            if (props.isRequired) {
-              if (value === "") {
-                setIsEmpty(true);
-              } else {
-                setIsEmpty(false);
-                blurCheck();
-              }
-            } else {
-              blurCheck();
-            }
+            blurCheck(value, props, setIsValid, setIsNotEmpty, "password");
           }}
         />{" "}
-        <ErroTextCnt isValid={isValid} isEmpty={isEmpty} />
+        <ErroTextCnt isValid={!isValid} IsNotEmpty={!IsNotEmpty} />
       </div>
     </>
   );

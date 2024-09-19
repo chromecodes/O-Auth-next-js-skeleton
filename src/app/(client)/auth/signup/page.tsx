@@ -1,17 +1,20 @@
 "use client";
 
 import OauthButton from "@/components/buttons/OauthButton";
+import PrimaryActionButton from "@/components/buttons/PrimaryActionButton";
 import PrimaryButton from "@/components/buttons/PrimaryButton";
 import ErroTextCnt from "@/components/Inputs/components/ErrorTextCnt";
 import EmailInput from "@/components/Inputs/EmailInput";
 import PasswordInput from "@/components/Inputs/PasswordInput";
 import TextFieldInput from "@/components/Inputs/TextFieldInput";
+import { errorHandler } from "@/helper/errorHandler";
 import { useLanguageStore } from "@/store/store";
 import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import toast from "react-hot-toast";
 
 export interface IsignUpProps {}
 
@@ -27,6 +30,7 @@ export default function SignUp(props: IsignUpProps) {
     email: false,
     password: false,
   });
+  const [resetBtn, setResetBtn] = React.useState(0);
   const lang = useLanguageStore((state) => state.language);
 
   const signUp = async () => {
@@ -38,9 +42,12 @@ export default function SignUp(props: IsignUpProps) {
         if (res.status === 200) {
           router.push("/profile");
         }
-      } catch (error) {
-        console.error(error);
+      } catch (error: any) {
+        setResetBtn((p) => p + 1);
+        errorHandler(error, lang);
       }
+    } else {
+      setResetBtn((p) => p + 1);
     }
   };
   const authSignUp = (auth: string) => {
@@ -51,9 +58,10 @@ export default function SignUp(props: IsignUpProps) {
     <div className="auth-wrapper">
       <div className="img-cnt"></div>
       <div className="cred-form">
-        <h1>Sign Up</h1>
+        <h1>{lang.sign_up}</h1>
         <div className="inputs-wrapper">
           <TextFieldInput
+            reset={resetBtn}
             label={lang.username}
             value={data.username}
             updateValue={(value) => setData({ ...data, username: value })}
@@ -65,6 +73,7 @@ export default function SignUp(props: IsignUpProps) {
           />
 
           <EmailInput
+            reset={resetBtn}
             value={data.email}
             label={lang.email}
             updateValue={(value) => setData((p) => ({ ...p, email: value }))}
@@ -76,6 +85,7 @@ export default function SignUp(props: IsignUpProps) {
           />
 
           <PasswordInput
+            reset={resetBtn}
             label={lang.password}
             value={data.password}
             updateValue={(value) => setData({ ...data, password: value })}
@@ -90,11 +100,15 @@ export default function SignUp(props: IsignUpProps) {
             <span>{lang.already_have_an_account}</span>
 
             <Link className="link" href="/auth/signin">
-              Login
+              {lang.sign_in}
             </Link>
           </div>
 
-          <PrimaryButton label="sign_up" action={signUp} />
+          <PrimaryActionButton
+            label="sign_up"
+            action={signUp}
+            resetBtn={resetBtn}
+          />
           <OauthButton
             label="sign_up_with_google"
             action={authSignUp}

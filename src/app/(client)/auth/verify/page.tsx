@@ -2,14 +2,17 @@
 import BigTickLoader from "@/components/Loaders/BigTickLoader";
 import BigXCrossLoader from "@/components/Loaders/BigXCrossLoader";
 import FullPageLoader from "@/components/Loaders/FullPageLoader";
+import { useLanguageStore } from "@/store/store";
 import axios from "axios";
 import * as React from "react";
+import Link from "next/link";
 
 export interface IverifyProps {}
 
 export default function Verify(props: IverifyProps) {
   const [isVerfied, setIsVerfied] = React.useState(false);
   const [gotData, setGotData] = React.useState(false);
+  const lang = useLanguageStore((state) => state.language);
 
   const [errorText, setErrorText] = React.useState("");
 
@@ -37,20 +40,25 @@ export default function Verify(props: IverifyProps) {
 
   return (
     <div className="verify-card-cnt">
+      <div className="card-header">
+        <h1>{lang.company_name}</h1>
+      </div>
       <div className="verify-card">
-        <div className="header">
-          <h1>company name</h1>
-        </div>
-        <div className="body">
-          {!gotData ? <h4>Verifing your email</h4> : <></>}
-          {gotData && isVerfied ? <h4>User Successfully Verified</h4> : <></>}
-          {gotData && !isVerfied ? <h4>{errorText}</h4> : <></>}
-          <br />
-          <br />
-          <br />
-          {!gotData ? <FullPageLoader /> : <></>}
-          {gotData && isVerfied ? <BigTickLoader /> : <></>}
-          {gotData && !isVerfied ? <BigXCrossLoader /> : <></>}
+        {!gotData ? <h4>{lang.verifing_your_email}</h4> : <></>}
+        {gotData && isVerfied ? (
+          <h4>{lang.user_successfully_verified}</h4>
+        ) : (
+          <></>
+        )}
+        {gotData && !isVerfied ? <h4>{lang[errorText]}</h4> : <></>}
+        {!gotData ? <FullPageLoader /> : <></>}
+        {gotData && isVerfied ? <BigTickLoader /> : <></>}
+        {gotData && !isVerfied ? <BigXCrossLoader /> : <></>}
+
+        <div className="btns">
+          <Link className="primary-button" href="/profile">
+            <span>{lang.profile}</span>
+          </Link>
         </div>
       </div>
     </div>

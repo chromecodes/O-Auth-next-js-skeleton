@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     const validPassword = await bcryptjs.compare(password, user.password); // true or false;
     if (!validPassword) {
       return NextResponse.json(
-        { message: "Invalid password" },
+        { message: "invalid_password" },
         { status: 400 }
       );
     }
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!);
     const response = NextResponse.json(
       {
-        message: "User logged in successfully",
+        message: "user_logged_in_successfully",
         success: true,
       },
       { status: 200 }
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     });
 
     return response;
-  } catch (message: any) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

@@ -6,7 +6,28 @@
   cursor: pointer;
 
   span {
-    color: var(--white);
+    color: var(--font-color);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &:hover {
+    background-color: var(--primary-hover);
+  }
+}
+
+.primary-action-button {
+  padding: var(--button-padding);
+  background-color: var(--primary);
+  border-radius: var(--button-border-radius);
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    color: var(--font-color);
     font-size: 16px;
     font-weight: 600;
   }
@@ -28,7 +49,7 @@
   justify-content: center;
 
   span {
-    color: var(--white);
+    color: var(--font-color);
     font-weight: 600;
     font-size: 16px;
   }

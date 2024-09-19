@@ -4,6 +4,7 @@ import "./globals.css";
 import "../scss/main.scss";
 import LanguageWrapper from "@/wrappers/LanguageWrapper";
 import SessionWrapper from "@/wrappers/SessionWrapper";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
       <html lang="en">
         <LanguageWrapper>
           <body className={inter.className}>
+            <Toaster />
             <div className="body-wrapper theme-dark">{children}</div>
           </body>
         </LanguageWrapper>

@@ -35,7 +35,7 @@ export const sendMail = async (
 
     const mailResponse = await transporter.sendMail(mailOptions);
     return mailResponse;
-  } catch (message: any) {
+  } catch (error: any) {
     throw new Error(error.message);
   }
   // Looking to send emails in production? Check out our Email API/SMTP product!

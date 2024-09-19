@@ -18,6 +18,7 @@ const handler = NextAuth({
   callbacks: {
     async signIn({ user, account, profile, email, credentials }: any) {
       const crtUser = await User.findOne({ email: user.email });
+
       if (!crtUser) {
         //hash password
         const salt = await bcryptjs.genSalt(10);
@@ -27,7 +28,9 @@ const handler = NextAuth({
           username: user.name,
           email: user.email,
           password: hashedPassword,
+          isVerified: true,
         });
+
         const savedUser = await newUser.save();
         const tokenData = {
           _id: savedUser._id,
@@ -36,7 +39,7 @@ const handler = NextAuth({
         };
         const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!);
         cookies().set("token", token, {
-          expires: new Date(Date.now() + 60 * 60 * 24 * 1000),
+          expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // 1 day,
         });
       } else {
         const tokenData = {
@@ -46,7 +49,7 @@ const handler = NextAuth({
         };
         const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!);
         cookies().set("token", token, {
-          expires: new Date(Date.now() + 60 * 60 * 24 * 1000),
+          expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days,
         });
       }
 
