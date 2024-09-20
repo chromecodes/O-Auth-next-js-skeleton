@@ -30,6 +30,9 @@ export default function SignIn(props: ISignInProps) {
   });
   const [resetBtn, setResetBtn] = React.useState(0);
   const lang = useLanguageStore((state) => state.language);
+  const session = useSession();
+
+  console.log(session);
 
   const SignIn = async () => {
     console.log({ dataIsValid });
@@ -82,7 +85,7 @@ export default function SignIn(props: ISignInProps) {
             }
           />
           <div className="link-cnt">
-            <Link className="link" href="/auth/signup">
+            <Link className="link" href="/auth/forgotPassword">
               {lang.forgot_password}
             </Link>
           </div>

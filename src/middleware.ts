@@ -7,7 +7,12 @@ export function middleware(request: NextRequest) {
   let currentPath = request.nextUrl.pathname;
   let token = request.cookies.get("token")?.value || "";
 
-  let publicPaths = ["/auth/signin", "/auth/signup"];
+  let publicPaths = [
+    "/auth/signin",
+    "/auth/signup",
+    "/auth/forgotPassword",
+    "/auth/changePassword",
+  ];
 
   let openPaths = ["/auth/verify"];
 
@@ -17,6 +22,7 @@ export function middleware(request: NextRequest) {
   if (isPublicPath && token) {
     return NextResponse.redirect(new URL("/profile", request.nextUrl));
   }
+
   if (!isPublicPath && !token && !isOpenPath) {
     return NextResponse.redirect(new URL("/auth/signin", request.url));
   }

@@ -12,6 +12,13 @@ const handler = NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "select_account", // This prevents showing the consent screen repeatedly
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
     }),
   ],
 

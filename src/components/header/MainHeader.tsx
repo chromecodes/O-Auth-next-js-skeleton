@@ -1,8 +1,11 @@
+"use client";
+
 import React, { useEffect } from "react";
 import PrimaryButton from "../buttons/PrimaryButton";
 import { useLanguageStore } from "@/store/store";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 type Props = {
   data: any;
@@ -13,8 +16,13 @@ const MainHeader = (props: Props) => {
   const [user, setUser] = React.useState({} as any);
   const [gotData, setGotData] = React.useState(false);
   const router = useRouter();
+  const session = useSession();
+
+  console.log(session);
+
   const onLogout = async () => {
     try {
+      signOut();
       await axios.get("/api/auth/logout");
       router.push("/auth/signin");
     } catch (error) {

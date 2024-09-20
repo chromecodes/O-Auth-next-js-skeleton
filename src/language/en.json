@@ -24,6 +24,8 @@
     "invalid_user":"Invalid user",
     "invalid_link":"Invalid link",
     "user_already_verified":"User already verified",
+    "back_to_signin":"Back to Sign in",
+    "send":"Send",
     "profile": "Profile",
     "invalid_email":"Invalid email",
     "user_created":"User created successfully",
