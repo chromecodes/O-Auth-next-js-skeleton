@@ -7,17 +7,20 @@ import path from "path";
 export const sendMail = async (
   email: string,
   username: string,
-  verifyToken: string
+  verifyToken: string,
+  type: string
 ) => {
   try {
     const emailTemplatePath = path.join(
       process.cwd(),
-      "src/emailTemplates/VerifyEmail.html"
+      "src/emailTemplates/" + type + ".html"
     );
     let htmlTemplate = fs.readFileSync(emailTemplatePath, "utf8");
     htmlTemplate = htmlTemplate.replace("{{username}}", username);
-    const verificationLink = `${process.env.DOMAIN}/auth/verify?token=${verifyToken}`;
-    htmlTemplate = htmlTemplate.replace("{{verifyLink}}", verificationLink);
+    const verificationLink = `${process.env.DOMAIN}/auth/${
+      type === "verifyEmail" ? "verify" : "resetPassword"
+    }?token=${verifyToken}`;
+    htmlTemplate = htmlTemplate.replace("{{pageLink}}", verificationLink);
     var transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
@@ -29,7 +32,7 @@ export const sendMail = async (
     const mailOptions = {
       from: "hi@demomailtrap.com",
       to: email,
-      subject: "Verification email",
+      subject: type === "verifyEmail" ? "Verification email" : "Reset Password",
       html: htmlTemplate,
     };
 

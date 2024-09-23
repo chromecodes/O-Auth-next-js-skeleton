@@ -30,5 +30,15 @@
     "invalid_email":"Invalid email",
     "user_created":"User created successfully",
     "user_updated":"User updated successfully",
-    "user_deleted":"User deleted successfully"
+    "user_deleted":"User deleted successfully",
+    "this_email_does_not_link_to_any_account": "This email does not link to any account",
+    "password_reset_email_sent_to_your_email": "Password reset email sent to your email",
+    "reset_password": "Reset Password",
+    "reset_password_link_sent_to_your_email": "Reset password link sent to your email",
+    "reset_password_link": "Reset Password Link",
+    "update_password": "Update Password",
+    "new_password": "New Password",
+    "confirm_password": "Confirm Password",
+    "reset_password_link_expired": "Reset password link expired"
+
 }

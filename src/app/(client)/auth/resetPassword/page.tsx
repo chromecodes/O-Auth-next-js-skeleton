@@ -1,6 +1,7 @@
 "use client";
 import PrimaryActionButton from "@/components/buttons/PrimaryActionButton";
 import EmailInput from "@/components/Inputs/EmailInput";
+import PasswordInput from "@/components/Inputs/PasswordInput";
 import { errorHandler } from "@/helper/errorHandler";
 import { successHandler } from "@/helper/successHandler";
 import { useLanguageStore } from "@/store/store";
@@ -11,22 +12,26 @@ import * as React from "react";
 
 type Props = {};
 
-export default function ForgotPassword() {
+export default function ResetPassword() {
   const lang = useLanguageStore((state) => state.language);
   const router = useRouter();
 
   const [data, setData] = React.useState({
-    email: "",
+    newPassword: "",
+    confirmPassword: "",
   });
+
   const [dataIsValid, setDataIsValid] = React.useState({
-    email: false,
+    newPassword: false,
+    confirmPassword: false,
   });
+
   const [resetBtn, setResetBtn] = React.useState(0);
 
-  const forgotPassword = async () => {
-    if (dataIsValid.email) {
+  const updatePassword = async () => {
+    if (dataIsValid.newPassword && dataIsValid.confirmPassword) {
       try {
-        const res = await axios.post("/api/auth/forgotPassword", data);
+        const res = await axios.post("/api/auth/resetPassword", data);
         successHandler(res, lang);
         router.push("/auth/signin");
       } catch (error: any) {
@@ -45,30 +50,42 @@ export default function ForgotPassword() {
           <h1>Company Logo</h1>
           <div className="container">
             <div className="heading">
-              <h1>Reset your password</h1>
-              <p>Enter the email address you used to register.</p>
+              <h1>{lang.update_password}</h1>
             </div>
-            <EmailInput
+            <PasswordInput
               reset={resetBtn}
-              value={data.email}
-              label={lang.email}
-              updateValue={(value) => setData((p) => ({ ...p, email: value }))}
+              label={lang.new_password}
+              value={data.newPassword}
+              updateValue={(value) => setData({ ...data, newPassword: value })}
               isRequired={true}
-              isValid={dataIsValid.email}
+              isValid={dataIsValid.newPassword}
               updateIsValid={(value) =>
-                setDataIsValid((p) => ({ ...p, email: value }))
+                setDataIsValid((p) => ({ ...p, password: value }))
+              }
+            />
+            <PasswordInput
+              reset={resetBtn}
+              label={lang.confirm_password}
+              value={data.confirmPassword}
+              updateValue={(value) =>
+                setData({ ...data, confirmPassword: value })
+              }
+              isRequired={true}
+              isValid={dataIsValid.confirmPassword}
+              updateIsValid={(value) =>
+                setDataIsValid((p) => ({ ...p, password: value }))
               }
             />
 
             <div className="btn-cnt">
-              <div className="link">
+              {/* <div className="link">
                 <Link className="link" href="/auth/signin">
                   {lang.back_to_signin}
                 </Link>
-              </div>
+              </div> */}
               <PrimaryActionButton
-                label="send"
-                action={forgotPassword}
+                label="confirm"
+                action={updatePassword}
                 resetBtn={resetBtn}
               />
             </div>

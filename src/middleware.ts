@@ -11,10 +11,10 @@ export function middleware(request: NextRequest) {
     "/auth/signin",
     "/auth/signup",
     "/auth/forgotPassword",
-    "/auth/changePassword",
+    "/auth/resetPassword",
   ];
 
-  let openPaths = ["/auth/verify"];
+  let openPaths = ["/auth/verify", "/auth/resetPassword"];
 
   let isOpenPath = openPaths.includes(currentPath);
   let isPublicPath = publicPaths.includes(currentPath);
