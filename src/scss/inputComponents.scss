@@ -10,4 +10,10 @@
     border-radius: var(--input-border-radius);
     width: 100%;
   }
+
+  .password-inp-cnt {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
 }

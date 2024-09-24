@@ -83,6 +83,7 @@ export default function ResetPassword() {
                   {lang.back_to_signin}
                 </Link>
               </div> */}
+              <br />
               <PrimaryActionButton
                 label="confirm"
                 action={updatePassword}

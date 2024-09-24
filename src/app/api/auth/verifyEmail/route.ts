@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     const isValidToken = verifyToken === userData.verifyToken; // true or false;
 
     if (!isValidToken || new Date(userData.verifyTokenExpiry) < new Date()) {
-      return NextResponse.json({ message: "Link expired" }, { status: 400 });
+      return NextResponse.json({ message: "link_expired" }, { status: 400 });
     }
 
     // update user

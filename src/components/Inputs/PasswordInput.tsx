@@ -20,6 +20,7 @@ export default function PasswordInput(props: IPasswordInputProps) {
   const [IsNotEmpty, setIsNotEmpty] = React.useState(true);
   const [value, setValue] = React.useState(props.value as string);
   const lang = useLanguageStore((state) => state.language);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   React.useEffect(() => {
     if (props.reset) {
@@ -35,16 +36,33 @@ export default function PasswordInput(props: IPasswordInputProps) {
     <>
       <div className="input-cnt">
         <label htmlFor="password">{props.label}</label>
-        <input
-          type="password"
-          id="password"
-          className={!isValid || !IsNotEmpty ? "error-input" : ""}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onBlur={() => {
-            blurCheck(value, props, setIsValid, setIsNotEmpty, "password");
-          }}
-        />{" "}
+        <div className="password-inp-cnt">
+          <input
+            type={showPassword ? "text" : "password"}
+            id="password"
+            className={!isValid || !IsNotEmpty ? "error-input" : ""}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onBlur={() => {
+              blurCheck(value, props, setIsValid, setIsNotEmpty, "password");
+            }}
+          />
+          {showPassword ? (
+            <i
+              onClick={() => {
+                setShowPassword((p) => !p);
+              }}
+              className="ic-eye-slash inp-right-side-flot"
+            ></i>
+          ) : (
+            <i
+              onClick={() => {
+                setShowPassword((p) => !p);
+              }}
+              className="ic-eye inp-right-side-flot"
+            ></i>
+          )}
+        </div>
         <ErroTextCnt isValid={!isValid} IsNotEmpty={!IsNotEmpty} />
       </div>
     </>

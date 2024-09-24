@@ -3,40 +3,44 @@ import User from "@/models/userModel";
 import { NextResponse, NextRequest } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
   try {
     // Get token from url payload
     const reqBody = await request.json();
-    const { verifyToken } = reqBody;
+    const { verifyToken, newPassword, confirmPassword } = reqBody;
+
+    if (newPassword !== confirmPassword) {
+      return NextResponse.json(
+        { message: "passwords_do_not_match" },
+        { status: 400 }
+      );
+    }
 
     //Check user exists
-    const userData = await User.findOne({ verifyToken });
+    const userData = await User.findOne({ forgotPasswordToken: verifyToken });
 
     if (!userData) {
       return NextResponse.json({ message: "invalid_link" }, { status: 400 });
     }
 
-    // check if user is already verified
-    if (userData.isVerified) {
-      return NextResponse.json(
-        { message: "user_already_verified" },
-        { status: 400 }
-      );
-    }
     // check valid token
+    const isValidToken = verifyToken === userData.forgotPasswordToken; // true or false;
 
-    const isValidToken = verifyToken === userData.verifyToken; // true or false;
-
-    if (!isValidToken || new Date(userData.verifyTokenExpiry) < new Date()) {
-      return NextResponse.json({ message: "Link expired" }, { status: 400 });
+    if (!isValidToken || new Date(userData.forgotPasswordExpiry) < new Date()) {
+      return NextResponse.json({ message: "link_expired" }, { status: 400 });
     }
 
     // update user
     const updatedUser = await User.updateOne(
       { _id: userData._id },
-      { $set: { isVerified: true } }
+      {
+        $set: {
+          password: newPassword,
+          forgotPasswordToken: null,
+          forgotPasswordExpiry: null,
+        },
+      }
     );
 
     let data = {

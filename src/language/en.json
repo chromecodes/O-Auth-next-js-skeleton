@@ -39,6 +39,6 @@
     "update_password": "Update Password",
     "new_password": "New Password",
     "confirm_password": "Confirm Password",
-    "reset_password_link_expired": "Reset password link expired"
-
+    "reset_password_link_expired": "Reset password link expired",
+    "passwords_do_not_match" : "Password do not match"
 }
