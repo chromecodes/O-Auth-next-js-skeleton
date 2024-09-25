@@ -31,12 +31,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "link_expired" }, { status: 400 });
     }
 
+    const salt = await bcryptjs.genSalt(10);
+    const hashedPassword = await bcryptjs.hash(newPassword, salt);
     // update user
     const updatedUser = await User.updateOne(
       { _id: userData._id },
       {
         $set: {
-          password: newPassword,
+          password: hashedPassword,
           forgotPasswordToken: null,
           forgotPasswordExpiry: null,
         },
@@ -51,16 +53,9 @@ export async function POST(request: NextRequest) {
     };
 
     let response = NextResponse.json(
-      { message: "User verified" },
+      { message: "password_changed_sucessfully" },
       { status: 200 }
     );
-    const token = await jwt.sign(data, process.env.TOKEN_SECRET!);
-
-    response.cookies.set("token", token, {
-      httpOnly: true,
-      expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days,
-    });
-
     return response;
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });

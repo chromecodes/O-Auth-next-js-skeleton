@@ -39,29 +39,27 @@ body {
     height: 12px;
     display: flex;
     align-items: center;
-
-    .err-text {
-      font-size: 12px;
-      text-align: left;
-      color: var(--error-color);
-      display: flex;
-      align-items: center;
-    }
-    .err-text::before {
-      content: "i";
-      display: inline-block;
-      background-color: var(--error-color);
-      border-radius: 50%;
-      width: 8px;
-      height: 8px;
-      padding: 2px;
-      margin-right: 4px;
-      font-size: 8px;
-      text-align: center;
-      color: var(--primary-bg);
-    }
   }
-
+  .err-text {
+    font-size: 12px;
+    text-align: left;
+    color: var(--error-color);
+    display: flex;
+    align-items: center;
+  }
+  .err-text::before {
+    content: "i";
+    display: inline-block;
+    background-color: var(--error-color);
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    padding: 2px;
+    margin-right: 4px;
+    font-size: 8px;
+    text-align: center;
+    color: var(--primary-bg);
+  }
   .error-input {
     border-color: var(--error-color) !important;
   }

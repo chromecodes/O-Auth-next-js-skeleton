@@ -27,16 +27,22 @@ export default function ResetPassword() {
   });
 
   const [resetBtn, setResetBtn] = React.useState(0);
-
+  const [showError, setShowError] = React.useState(false);
   const updatePassword = async () => {
     if (dataIsValid.newPassword && dataIsValid.confirmPassword) {
-      try {
-        const res = await axios.post("/api/auth/resetPassword", data);
-        successHandler(res, lang);
-        router.push("/auth/signin");
-      } catch (error: any) {
+      if (data.newPassword === data.confirmPassword) {
+        setShowError(false);
+        try {
+          const res = await axios.post("/api/auth/resetPassword", data);
+          successHandler(res, lang);
+          router.push("/auth/signin");
+        } catch (error: any) {
+          setResetBtn((p) => p + 1);
+          errorHandler(error, lang);
+        }
+      } else {
+        setShowError(true);
         setResetBtn((p) => p + 1);
-        errorHandler(error, lang);
       }
     } else {
       setResetBtn((p) => p + 1);
@@ -51,7 +57,17 @@ export default function ResetPassword() {
           <div className="container">
             <div className="heading">
               <h1>{lang.update_password}</h1>
+              {showError ? (
+                <div className="err_cnt">
+                  <span className="err-text">
+                    {lang.new_password_and_confirm_password_is_not_same}
+                  </span>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
+
             <PasswordInput
               reset={resetBtn}
               label={lang.new_password}
@@ -60,7 +76,7 @@ export default function ResetPassword() {
               isRequired={true}
               isValid={dataIsValid.newPassword}
               updateIsValid={(value) =>
-                setDataIsValid((p) => ({ ...p, password: value }))
+                setDataIsValid((p) => ({ ...p, newPassword: value }))
               }
             />
             <PasswordInput
@@ -73,7 +89,7 @@ export default function ResetPassword() {
               isRequired={true}
               isValid={dataIsValid.confirmPassword}
               updateIsValid={(value) =>
-                setDataIsValid((p) => ({ ...p, password: value }))
+                setDataIsValid((p) => ({ ...p, confirmPassword: value }))
               }
             />
 
@@ -84,6 +100,7 @@ export default function ResetPassword() {
                 </Link>
               </div> */}
               <br />
+
               <PrimaryActionButton
                 label="confirm"
                 action={updatePassword}
